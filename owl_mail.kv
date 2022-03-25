@@ -1,0 +1,226 @@
+#Для дебага лейаутов
+#            canvas:
+#                Color:
+#                    rgba: 1,0,0,1
+#                RoundedRectangle:
+#                    pos: self.pos
+#                    size: self.size
+#
+<btn_blue@Button>:
+    background_normal: ''
+    background_color: 0.15, 0.53, 0.58, 0.5
+    font_size: '13sp'
+    canvas.before:
+        Color:
+            rgba: .5, .5, .5, 1
+        Line:
+            width: 2
+            rectangle: self.x, self.y, self.width, self.height
+
+ScreenManager:
+    id: screen_manager
+    MenuScreen:
+        id: menu_screen
+        name: 'MenuScreen'
+        manager: 'screen_manager'
+
+    SettingScreen:
+        id: setting_screen
+        name: 'SettingScreen'
+        manager: 'screen_manager'
+
+
+
+<MenuScreen>:
+    FloatLayout:
+        Image:
+            source: 'images/pepe_cyborg.jpg'
+        btn_blue:
+            size_hint: ( 0.08, 0.05)
+            pos_hint:{"center_x":0.95,"center_y":0.96}
+
+            text: 'Настройки'
+
+            on_press:
+                root.animation_on_press(self)
+            on_release:
+                root.animation_on_release(self)
+                root.go_to_setting()
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: .5, .5, .5, 1
+                Line:
+                    width: 2
+                    rectangle: self.x, self.y, self.width, self.height
+
+            canvas:
+                Color:
+                    rgba: 0.15, 0.53, 0.58, 0.5
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+            padding: 10
+
+            pos_hint:{"center_x":0.8,"center_y":0.7}
+            size_hint: ( 0.2, 0.4)
+            orientation:'vertical'
+            BoxLayout:
+                Image:
+
+                    size_hint_x: 0.1
+                    source: 'images/tlg.png'
+                Label:
+                    text: 'Телеграм'
+                    halign: 'left'
+                    size_hint_x: 0.8
+                CheckBox:
+                    color: 0,0,0,1
+                    size_hint_x: 0.1
+                    id: tlg
+                    name: 'tlg'
+                    on_active: root.check_box_hendler(self,self.active)
+            BoxLayout:
+                Image:
+                    size_hint_x: 0.1
+                    source: 'images/vk.png'
+                Label:
+                    halign: 'right'
+                    text:'Vk'
+                    size_hint_x: 0.8
+                CheckBox:
+                    color: 0,0,0,1
+                    size_hint_x: 0.1
+                    id: vk
+                    name: 'vk'
+                    on_active: root.check_box_hendler(self,self.active)
+            BoxLayout:
+                Image:
+                    size_hint_x: 0.1
+                    source: 'images/dis.png'
+                Label:
+                    halign: 'right'
+                    text:'Discord'
+                    size_hint_x: 0.8
+                CheckBox:
+                    color: 0,0,0,1
+                    size_hint_x: 0.1
+                    name: 'dis'
+                    id: dis
+                    on_active: root.check_box_hendler(self,self.active)
+        BoxLayout:
+            size_hint_x: 0.62
+            canvas.before:
+                Color:
+                    rgba: 1, 0, 0, 1
+                Line:
+                    width: 2
+                    rectangle: self.x, self.y, self.width, self.height
+        TextInput:
+            pos_hint:{"center_x":0.81,"center_y":0.25}
+            size_hint: ( 0.35, 0.2)
+
+            canvas.before:
+                Color:
+                    rgba: .5, .5, .5, 1
+                Line:
+                    width: 2
+                    rectangle: self.x, self.y, self.width, self.height
+            canvas.before:
+                Color:
+                    rgba: 0.15, 0.53, 0.58, 0.5
+                Line:
+                    width: 2
+                    rectangle: self.x, self.y, self.width, self.height
+
+            auto_indent: True
+            hint_text: 'Текст письма'
+            hint_text_foreground_color: (1,0,0,1)
+            foreground_color: (1,0,0,1)
+            background_normal: ''
+            background_color: 1,1,1, 1
+
+        btn_blue:
+            size_hint: ( 0.2, 0.05)
+            pos_hint:{"center_x":0.83,"center_y":0.1}
+            text:'Отправить совушек'
+            on_press:
+                root.animation_on_press(self)
+            on_release:
+                root.animation_on_release(self)
+                root.send_owl(self)
+
+
+
+
+<SettingScreen>:
+    FloatLayout:
+        Button:
+            background_normal: ''
+            background_color: 0.15, 0.53, 0.58, 0.5
+            font_size: '13sp'
+            canvas.before:
+                Color:
+                    rgba: .5, .5, .5, 1
+                Line:
+                    width: 2
+            rectangle: self.x, self.y, self.width, self.height
+            size_hint: ( 0.12, 0.05)
+            pos_hint:{"center_x":0.07,"center_y":0.97}
+            text: 'Назад на главную'
+            on_press:
+                root.animation_on_press(self)
+            on_release:
+                root.animation_on_release(self)
+                root.go_to_menu()
+        BoxLayout:
+            size_hint: ( 0.6, 0.4)
+            pos_hint:{"center_x":0.5,"center_y":0.5}
+            orientation: 'vertical'
+            spacing: 6
+            BoxLayout:
+                size_hint: ( 1, 0.25)
+                Label:
+                    text: 'id чата или беседы тлг(бот должен быть там)'
+                TextInput:
+                    id: tlg_in
+                    size_hint: ( 0.3, 1)
+                    hint_text:'-123456789'
+
+            BoxLayout:
+                size_hint: ( 1, 0.25)
+                Label:
+                    text: 'чето там для discord'
+                TextInput:
+                    id: dis_in
+                    size_hint: ( 0.3, 1)
+                    hint_text:'?????'
+
+            BoxLayout:
+                size_hint: ( 1, 0.25)
+                Label:
+                    text: 'чето там для инсты'
+                TextInput:
+                    id: ins_in
+                    size_hint: ( 0.3, 1)
+                    hint_text:'-123456789'
+            BoxLayout:
+                FloatLayout:
+        Button:
+            background_normal: ''
+            background_color: 0.15, 0.53, 0.58, 0.5
+            font_size: '13sp'
+            canvas.before:
+                Color:
+                    rgba: .5, .5, .5, 1
+                Line:
+                    width: 2
+            rectangle: self.x, self.y, self.width, self.height
+            size_hint: ( 0.12, 0.05)
+            pos_hint:{"center_x":0.5,"center_y":0.2}
+            text: 'Сохранить'
+            on_press:
+                root.animation_on_press(self)
+            on_release:
+                root.animation_on_release(self)
+                root.save_setting(self)
